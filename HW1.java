@@ -1,6 +1,6 @@
 
 /*
- * *** PLACE YOUR NAME / SECTION  HERE ***
+ * *** Francis Olakangil ~ Section 1 ***
  *
  * Homework # 1 (Programming Assignment). This Java class defines some basic
  * manipulation operations on Linked-Lists and Stacks.
@@ -28,7 +28,7 @@ public class HW1 {
      *                                   than 'val'
      *  - void   removeElement(val)    - Removes all values in the linked list of
      *                                   value 'val'
-     *  - String toString()            - coverts and returns the linked-lists as a string
+     *  - String toString()            - converts and returns the linked-lists as a string
      *                                   delimited by brackets []
      *
      */
@@ -48,7 +48,7 @@ public class HW1 {
 
         /*
          * Method sortedInsert() - this method will insert a new node to the
-         * linked list containing the value specific in teh parameter 'data'.
+         * linked list containing the value specific in the parameter 'data'.
          * The newly inserted node will be inserted in sorted order within
          * the linked-list.
          *
@@ -83,11 +83,21 @@ public class HW1 {
          * value that is less than the provided parameter 'ltValue'.
          *
          * The method will invoke the method removeElements for each element
-         * found in the linked-list that is less than thr parameter value passed.
+         * found in the linked-list that is less than the parameter value passed.
          */
         public void removeElementsLT ( int ltValue ) {
 
-            // YOUR CODE GOES HERE
+            // basically removes all elements less than parameter value by calling method implemented below
+            // as required within javadoc above
+
+            Node current = head;
+
+            while (current != null) {
+                if (current.data < ltValue) {
+                    removeElement(current.data); // accesses data attribute of current node of list if it's value is in fact less than param
+                }
+                current = current.next; // increments to next node in l.list to check
+            }
 
             return;
         }
@@ -100,7 +110,23 @@ public class HW1 {
 
         public void removeElement ( int value ) {
 
-            // YOUR CODE GOES HERE
+            // intends to remove all occurrences of nodes with 'value' within list
+            
+            while (head != null && head.data == value) {
+                head = head.next; // moves head ptr to succeeding node to "exclude" current head as a way to remove it
+            }
+
+            // moving thru list assuming head didnt have value
+            Node current = head;
+            while (current != null && current.next != null) { // wanted to start traversal from head despite above while loop
+                // thats why using current.next as additional counter
+                if (current.next.data == value) {
+                    current.next = current.next.next; // basically shifts ptr
+                    // to next node to exclude current next node that contains value param as node-value
+                } else {
+                    current = current.next; // regularly increments if value not found
+                }
+            }
 
             return;
         }
@@ -160,7 +186,15 @@ public class HW1 {
             Stack<Character> stack = new Stack<>();
             input = input.toLowerCase().replaceAll("\\s+", "");
 
-            // Your CODE GOES HERE
+            for (char letter : input.toCharArray()) {
+                stack.push(letter); // inserting all characters of input onto the stack object
+            }
+
+            for (char letter : input.toCharArray()) { // cross-referencing popped letters with input param
+                if (stack.pop() == letter) {
+                    return true; // letters match and thus is a palindrome
+                }
+            }
             return false;
         }
 
@@ -178,12 +212,30 @@ public class HW1 {
          * destroy the passed in stack, meaning when the method returns, the passed in
          * stack should be identical to when this method is passed. One trick as you
          * pop elements off the passed in stack, place them in a temp stack. Then when
-         * completed, place them all back in teh original stack.
+         * completed, place them all back in the original stack.
          */
         public static int findLargestK(Stack<Integer> stack, int k) {
 
-            // YOUR CODE GOES HERE
-            return -1;
+            Stack<Integer> temporary_stack = new Stack<>();
+            int currentIndex = stack.size() - 1;
+            int largestIndex = -1;
+
+            while (!stack.isEmpty()) { // increment thru stack to check against k param
+                int value = stack.pop();
+                if (value == k && currentIndex > largestIndex) { // both checking against k param
+                    // and only updating if value larger than current_largest
+                    largestIndex = currentIndex; // updating largest to current index if match is true
+                }
+                temporary_stack.push(value);
+                currentIndex--;
+            }
+
+            // revert stack to original state in given param
+            while (!temporary_stack.isEmpty()) {
+                stack.push(temporary_stack.pop());
+            }
+            
+            return largestIndex;
         }
 
     }  // End class Stacks
@@ -219,7 +271,7 @@ public class HW1 {
         */
 
         // RETURN THE CORRECT OPTION NUMBER LISTED ABOVE
-        return -1;
+        return 3;
     }
 
 
@@ -240,7 +292,7 @@ public class HW1 {
          */
 
         // RETURN THE CORRECT OPTION LISTED ABOVE
-        return -1;
+        return 2;
     }
 
 }
